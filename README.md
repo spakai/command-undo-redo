@@ -31,15 +31,23 @@ there are 4 terms associated with the command pattern
 - command
   Command objects do the transactions above 
   
-`public interface Command {
-  public void execute();
-}`
+```
 
-`public class CreateGroupAndSubscription implements Command {
+public interface Command {
+  public void execute();
+}
+
+```
+
+```
+
+public class CreateGroupAndSubscription implements Command {
   public void execute() {
      
   }
-}`
+}
+
+```
 
   
 - receiver
@@ -47,14 +55,19 @@ there are 4 terms associated with the command pattern
 
 - invoker
   invokes methods of the receiver, does the invoker keeps the history for undo purposes?
-  `public class Invoker {
+  
+  ```
+  
+  public class Invoker {
      private List<Command> history .....
      public void storeAndExecute(final Command) {
-        cmd.execute(...);
+     
      }
   
   }
-  `
+  
+  ```
+  
 
 - client
   This must be the main code that calls the invoker 
