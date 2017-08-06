@@ -29,7 +29,7 @@ the requirements is such that
 there are 4 terms associated with the command pattern
 
 - command
-  Command objects do the transactions above 
+  Command objects do the transactions above . If use java 8 's functional interface , I should be able to get rid of the implementation classes by using lambdas.Let's see. 
   
 ```
 
