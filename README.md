@@ -31,16 +31,32 @@ there are 4 terms associated with the command pattern
 - command
   Command objects do the transactions above 
   
+`public interface Command {
+  public void execute();
+}`
+
+`public class CreateGroupAndSubscription implements Command {
+  public void execute() {
+     
+  }
+}`
+
+  
 - receiver
   the Volt APIs called by the command objects which then updates the DB.
 
 - invoker
-  invokes methods of the receiver
+  invokes methods of the receiver, does the invoker keeps the history for undo purposes?
+  `public class Invoker {
+     private List<Command> history .....
+     public void storeAndExecute(final Command) {
+        cmd.execute(...);
+     }
+  
+  }
+  `
 
 - client
-  This must be the main code that calls the 4 Commands 
+  This must be the main code that calls the invoker 
 
-`public interface Command {
-  public void execute();
-}
 `
