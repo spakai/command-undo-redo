@@ -70,6 +70,6 @@ public class CreateGroupAndSubscription implements Command {
   
 
 # client
-  This must be the main code that calls the invoker 
+  This must be the main code that calls the invoker , this will be my unit test class.
 
 `
