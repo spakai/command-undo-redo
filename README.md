@@ -28,7 +28,7 @@ the requirements is such that
 
 there are 4 terms associated with the command pattern
 
-- command
+# command
   Command objects do the transactions above . If use java 8 's functional interface , I should be able to get rid of the implementation classes by using lambdas.Let's see. 
   
 ```
@@ -50,10 +50,10 @@ public class CreateGroupAndSubscription implements Command {
 ```
 
   
-- receiver
+# receiver
   the Volt APIs called by the command objects which then updates the DB.
 
-- invoker
+# invoker
   invokes methods of the receiver, does the invoker keeps the history for undo purposes?
   
   ```
@@ -69,7 +69,7 @@ public class CreateGroupAndSubscription implements Command {
   ```
   
 
-- client
+# client
   This must be the main code that calls the invoker 
 
 `
