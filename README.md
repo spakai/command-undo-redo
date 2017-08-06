@@ -25,3 +25,22 @@ the requirements is such that
 | create group balance                | delete group                                             |     |
 | create owner balance                | delete group balance, delete group                       |     |
 | activate owner subscription         | delete owner balance, delete group balance, delete group |     |
+
+there are 4 terms associated with the command pattern
+
+- command
+  Command objects do the transactions above 
+  
+- receiver
+  the Volt APIs called by the command objects which then updates the DB.
+
+- invoker
+  invokes methods of the receiver
+
+- client
+  This must be the main code that calls the 4 Commands 
+
+`public interface Command {
+  public void execute();
+}
+`
