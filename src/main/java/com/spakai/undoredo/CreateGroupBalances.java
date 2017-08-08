@@ -1,15 +1,14 @@
 package com.spakai.undoredo;
 
-public class CreateGroupBalances implements Command {
+public class CreateGroupBalances implements Command <SPROutput>{
     @Override
-    public boolean execute() {
-        System.out.print("Group Balances created");
-        return true;
+    public SPROutput execute() {
+        return new SPROutput(0L,"Group balances created");
     }
     
     @Override
-    public boolean undo() {
-        System.out.print("Group Balances deleted");
-        return true;
+    public SPROutput undo() {
+        return new SPROutput(0L,"Deleted Group balances");
     }
+    
 }

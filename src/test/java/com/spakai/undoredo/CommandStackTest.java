@@ -15,17 +15,26 @@ public class CommandStackTest {
       cs = new CommandStack(3);
   }
   
-    class CommandTest implements Command {
+    class DummyOutput extends Output {
+        
+        public DummyOutput(Long resultCode, String resultMessage) {
+            super(resultCode, resultMessage);
+        }
+        
+        
+    }
+  
+    class CommandTest implements Command<DummyOutput> {
         @Override
-        public boolean execute() {
-            System.out.print("Group Balances created");
-            return true;
+        public DummyOutput execute() {
+             return new DummyOutput(0L,"");
+            
         }
     
         @Override
-        public boolean undo() {
-            System.out.print("Group Balances deleted");
-            return true;
+        public DummyOutput undo() {
+             return new DummyOutput(0L,"");
+            
         }
     }
 
