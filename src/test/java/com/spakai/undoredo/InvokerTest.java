@@ -22,16 +22,23 @@ public class InvokerTest {
     }
   
     class CommandTest implements Command<DummyOutput> {
+
+        private String message;
+        
+        public CommandTest(String message) {
+            this.message = message;
+        }
+        
         @Override
         public DummyOutput execute() {
-             System.out.println("Executed Dummy");
+             System.out.println("Execute " + message);
              return new DummyOutput(0L,"Executed Dummy");
             
         }
     
         @Override
         public DummyOutput undo() {
-             System.out.println("Undo Dummy");
+             System.out.println("Undo " + message);
              return new DummyOutput(0L,"Undo Dummy");
             
         }
@@ -39,18 +46,16 @@ public class InvokerTest {
 
   @Test
   public void ExecuteAndUndo() {
-      inv.execute(new CommandTest());
+      inv.execute(new CommandTest("create group and subscriptions"));
+      inv.execute(new CommandTest("create group balances"));
+      inv.redo();
+      inv.undo();
       inv.undo();
       
   }
   
-  
-  @Test
-  public void ExecuteAndRedo() {
-      inv.execute(new CommandTest());
-      inv.redo();
-      
-  }
+
+
   
   
   
