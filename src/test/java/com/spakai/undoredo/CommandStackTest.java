@@ -73,5 +73,27 @@ public class CommandStackTest {
       assertThat(cs.getLastCommand(), is(cmdTest2));
       assertThat(cs.getLastCommand(), is(nullValue()));
   }
+    
+  @Test
+  public void pushCommandsIntoStackAndRetrieveInReverseAndAddAgain() {
+      CommandTest cmdTest1 = new CommandTest();
+      CommandTest cmdTest2 = new CommandTest();
+      CommandTest cmdTest3 = new CommandTest();
+      CommandTest cmdTest4 = new CommandTest();
+      cs.push(cmdTest1);
+      cs.push(cmdTest2);
+      cs.push(cmdTest3);
+      cs.push(cmdTest4);
+      
+      assertThat(cs.getSize(), is(3));
+      assertThat(cs.getLastCommand(), is(cmdTest4));
+      assertThat(cs.getLastCommand(), is(cmdTest3));
+      assertThat(cs.getLastCommand(), is(cmdTest2));
+      assertThat(cs.getLastCommand(), is(nullValue()));
+      
+      
+      cs.push(cmdTest1);
+      assertThat(cs.getLastCommand(), is(cmdTest1));
+  }
   
 }

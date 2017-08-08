@@ -15,11 +15,20 @@ public class CommandStack {
     
     public void push(Command cmd) {
         
+        if (commandsStack.size() > pointer) {
+            int sz;
+            do {
+                sz = commandsStack.size();
+                commandsStack.remove(sz - 1);
+            } while(sz > pointer + 1);
+        }
+        
+        //remove first member is size does not fit for new member
         if(commandsStack.size() +1 > stackSize) {
             commandsStack.remove(0);
             pointer--;
         }
-        
+                
         commandsStack.add(cmd);
         pointer++;
     }
