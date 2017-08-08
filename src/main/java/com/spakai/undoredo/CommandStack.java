@@ -25,7 +25,11 @@ public class CommandStack {
     }
     
     public Command getLastCommand() {
-        return commandsStack.get(--pointer);
+        if ( pointer > 0) {
+            return commandsStack.get(--pointer);
+        }
+        
+        return null;
     }
     
      public int getSize() {
