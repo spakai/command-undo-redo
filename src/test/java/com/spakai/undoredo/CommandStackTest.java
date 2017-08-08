@@ -7,27 +7,37 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CommandStackTest {
+    
+  private CommandStack cs;  
   
   @Before
   public void setup() {
-
+      cs = new CommandStack();
   }
   
-class CommandTest implements Command {
-    @Override
-    public void execute() {
-        System.out.print("Group Balances created");
-    }
+    class CommandTest implements Command {
+        @Override
+        public boolean execute() {
+            System.out.print("Group Balances created");
+            return true;
+        }
     
-    @Override
-    public void undo() {
-        System.out.print("Group Balances deleted");
+        @Override
+        public boolean undo() {
+            System.out.print("Group Balances deleted");
+            return true;
+        }
     }
-}
 
   @Test
   public void pushACommandIntoStack() {
-      assertThat(1,is(1));
+      CommandTest cmdTest = new CommandTest();
+      CommandTest cmdTest2 = new CommandTest();
+      cs.push(cmdTest);
+      cs.push(cmdTest2);
+      
+      assertThat(cs.getLastCommand(), is(cmdTest2));
+      
       
   }
 }

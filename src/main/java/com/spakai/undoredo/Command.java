@@ -1,7 +1,7 @@
 package com.spakai.undoredo;
 
 public interface Command {
-    public void execute();
+    public boolean execute();
 
-    public void undo();    
+    public boolean undo();    
 }
