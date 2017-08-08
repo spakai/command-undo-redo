@@ -97,8 +97,8 @@ public class CommandStackTest {
   }
   
   
-    @Test
-  public void RedoLastCommand() {
+  @Test
+  public void getTheLastCommandAgain() {
       CommandTest cmdTest1 = new CommandTest();
       CommandTest cmdTest2 = new CommandTest();
       
@@ -108,5 +108,21 @@ public class CommandStackTest {
       assertThat(cs.getLastCommand(), is(cmdTest2));
       assertThat(cs.getAgainLastCommand(), is(cmdTest2));
   }
+  
+  @Test
+  public void X() {
+      CommandTest cmdTest1 = new CommandTest();
+      CommandTest cmdTest2 = new CommandTest();
+      CommandTest cmdTest3 = new CommandTest();
+      
+      cs.push(cmdTest1);
+      cs.push(cmdTest2);
+      cs.push(cmdTest3);      
+      assertThat(cs.getLastCommand(), is(cmdTest3));
+      assertThat(cs.getAgainLastCommand(), is(cmdTest3));
+      assertThat(cs.getLastCommand(), is(cmdTest3));
+      
+  }
+  
   
 }

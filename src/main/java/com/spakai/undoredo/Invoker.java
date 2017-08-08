@@ -19,7 +19,7 @@ public class Invoker {
     }
     
     public void redo() {
-        
+        commandStack.getAgainLastCommand().execute();
         
     }
 }

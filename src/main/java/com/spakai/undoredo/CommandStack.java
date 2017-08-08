@@ -14,7 +14,7 @@ public class CommandStack {
     }
     
     public void push(Command cmd) {
-        
+            
         //remove all above the pointer
         if (commandsStack.size() > pointer) {
             int sz;
@@ -24,7 +24,7 @@ public class CommandStack {
             } while(sz > pointer + 1);
         }
         
-        //remove first member is size does not fit for new member
+        //remove first member if size does not fit for new member
         if(commandsStack.size() +1 > stackSize) {
             commandsStack.remove(0);
             pointer--;
@@ -32,13 +32,13 @@ public class CommandStack {
                 
         commandsStack.add(cmd);
         pointer++;
+        
     }
     
     public Command getLastCommand() {
         if ( pointer > 0) {
             return commandsStack.get(--pointer);
         }
-        
         return null;
     }
     
