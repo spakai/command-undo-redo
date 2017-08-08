@@ -1,25 +1,33 @@
 package com.spakai.undoredo;
 
+import java.util.Stack;
 
 public class Invoker {
     
-    private final CommandStack commandStack;
+    private final Stack<Command> undoStack;
+    private final Stack<Command> redoStack;
     
-    public Invoker(int undoBufferSize) {
-        commandStack = new CommandStack(undoBufferSize);
+    public Invoker() {
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
     }
     
     public void execute(Command cmd) {
-        commandStack.push(cmd);
+        undoStack.push(cmd);
+        redoStack.push(cmd);
         cmd.execute();
     }
     
     public void undo() {
-        commandStack.getLastCommand().undo();
+        Command cmd = undoStack.pop();
+        redoStack.add(cmd);
+        cmd.undo();
     }
     
     public void redo() {
-        commandStack.getAgainLastCommand().execute();
+        Command cmd = redoStack.pop();
+        undoStack.push(cmd);
+        cmd.execute();
         
     }
 }

@@ -12,7 +12,7 @@ public class InvokerTest {
   
   @Before
   public void setup() {
-      inv = new Invoker(3);
+      inv = new Invoker();
   }
   
     class DummyOutput extends Output {
@@ -48,7 +48,7 @@ public class InvokerTest {
   @Test
   public void ExecuteAndRedo() {
       inv.execute(new CommandTest());
-      // failed inv.redo();
+      inv.redo();
       
   }
   
