@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CommandStack {
     private final int stackSize;
-    private List<Command> commandsStack;  
+    private final List<Command> commandsStack;  
     private int pointer = 0;
     
     public CommandStack(int stackSize) {

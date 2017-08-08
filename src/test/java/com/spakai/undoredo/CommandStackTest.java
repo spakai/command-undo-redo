@@ -109,13 +109,11 @@ public class CommandStackTest {
   @Test
   public void getTheLastCommandAgain() {
       CommandTest cmdTest1 = new CommandTest();
-      CommandTest cmdTest2 = new CommandTest();
       
       cs.push(cmdTest1);
-      cs.push(cmdTest2);
-            
-      assertThat(cs.getLastCommand(), is(cmdTest2));
-      assertThat(cs.getAgainLastCommand(), is(cmdTest2));
+      
+      assertThat(cs.getLastCommand(), is(cmdTest1));
+      assertThat(cs.getAgainLastCommand(), is(cmdTest1));
   }
   
   @Test
