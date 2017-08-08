@@ -15,6 +15,7 @@ public class CommandStack {
     
     public void push(Command cmd) {
         
+        //remove all above the pointer
         if (commandsStack.size() > pointer) {
             int sz;
             do {
@@ -41,7 +42,11 @@ public class CommandStack {
         return null;
     }
     
-     public int getSize() {
+    public Command getAgainLastCommand() {
+        return commandsStack.get(pointer++);
+    }
+    
+    public int getSize() {
         return commandsStack.size();
     }
 
