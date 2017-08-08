@@ -1,7 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'jacoco'
-apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
 group = 'com.spakai'
@@ -26,8 +25,4 @@ jacocoTestReport {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
     additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
-}
-
-checkstyle {
-    toolVersion = '6.13'
 }

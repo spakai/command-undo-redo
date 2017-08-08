@@ -9,4 +9,5 @@ public class CreateGroupBalances implements Command {
     @Override
     public void undo() {
         System.out.print("Group Balances deleted");
+    }
 }
