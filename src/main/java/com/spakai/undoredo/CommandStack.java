@@ -14,14 +14,14 @@ public class CommandStack {
     }
     
     public void push(Command cmd) {
-        commandsStack.add(cmd);
-        pointer++;
         
-        if(commandsStack.size() > stackSize) {
+        if(commandsStack.size() +1 > stackSize) {
             commandsStack.remove(0);
             pointer--;
         }
         
+        commandsStack.add(cmd);
+        pointer++;
     }
     
     public Command getLastCommand() {
