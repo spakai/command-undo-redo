@@ -48,8 +48,12 @@ public class InvokerTest {
   public void ExecuteAndUndo() {
       inv.execute(new CommandTest("create group and subscriptions"));
       inv.execute(new CommandTest("create group balances"));
+      
+      //failed timeout
       inv.redo();
-      inv.undo();
+      
+      //failed again undo all
+      inv.undo(); 
       inv.undo();
       
   }
