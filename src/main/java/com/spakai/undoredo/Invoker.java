@@ -14,18 +14,20 @@ public class Invoker {
     
     public void execute(Command cmd) {
         undoStack.push(cmd);
-        redoStack.push(cmd);
+        redoStack.clear();
         cmd.execute();
     }
     
     public void undo() {
         Command cmd = undoStack.pop();
         cmd.undo();
+        redoStack.push(cmd);
     }
     
     public void redo() {
         Command cmd = redoStack.pop();
         cmd.execute();
+        undoStack.push(cmd);
         
     }
 }
