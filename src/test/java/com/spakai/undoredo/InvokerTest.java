@@ -21,7 +21,7 @@ public class InvokerTest {
         }
     }
   
-    class CommandTest implements Command<DummyOutput> {
+    class CommandTest implements Command {
 
         private String message;
         
@@ -30,17 +30,18 @@ public class InvokerTest {
         }
         
         @Override
-        public DummyOutput execute() {
+        public void execute() {
              System.out.println("Execute " + message);
-             return new DummyOutput(0L,"Executed Dummy");
-            
         }
     
         @Override
-        public DummyOutput undo() {
+        public void undo() {
              System.out.println("Undo " + message);
-             return new DummyOutput(0L,"Undo Dummy");
-            
+        }
+        
+         @Override
+        public void redo() {
+             execute();
         }
     }
 

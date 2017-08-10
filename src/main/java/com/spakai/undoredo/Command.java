@@ -1,6 +1,7 @@
 package com.spakai.undoredo;
 
-public interface Command <O extends Output> {
-    public O execute();
-    public O undo();    
+public interface Command {
+    public void execute();
+    public void undo();    
+    public void redo();
 }
