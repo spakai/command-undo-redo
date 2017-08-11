@@ -21,9 +21,9 @@ the requirements is such that
 
 | Transaction                         | if fails  Undo                                           |     |
 | ------------------------------------|----------------------------------------------------------|-----|
-| create group and group subscription | Nothing                                                  |     |
+| create group with subscription      | Nothing                                                  |     |
 | create group balance                | delete group                                             |     |
-| create owner balance                | delete group balance, delete group                       |     |
+| create owner balance                | delete group balance, delete group with subscription     |     |
 | activate owner subscription         | delete owner balance, delete group balance, delete group |     |
 
 there are 4 terms associated with the command pattern
