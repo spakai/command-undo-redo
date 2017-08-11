@@ -19,9 +19,11 @@ public class Invoker {
     }
     
     public void undo() {
-        Command cmd = undoStack.pop();
-        cmd.undo();
-        redoStack.push(cmd);
+        if (!undoStack.isEmpty()) {
+            Command cmd = undoStack.pop();
+            cmd.undo();
+            redoStack.push(cmd);
+        }
     }
     
     public void redo() {

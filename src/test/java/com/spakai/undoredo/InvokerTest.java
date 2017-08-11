@@ -56,6 +56,19 @@ public class InvokerTest {
       
   }
   
+  @Test
+  public void NothingToUndo() {
+   inv.execute(new CommandTest("create group and subscriptions"));
+   inv.execute(new CommandTest("create group balances"));
+      
+   //failed again undo all
+   inv.undo(); 
+   inv.undo();
+   //nothing to undo
+   inv.undo();
+
+  }
+  
 
 
   
