@@ -21,9 +21,9 @@ the requirements is such that
 
 | Transaction                         | if fails  Undo                                           |     |
 | ------------------------------------|----------------------------------------------------------|-----|
-| create group and group subscription | Nothing                                                  |     |
+| create group with subscription      | Nothing                                                  |     |
 | create group balance                | delete group                                             |     |
-| create owner balance                | delete group balance, delete group                       |     |
+| create owner balance                | delete group balance, delete group with subscription     |     |
 | activate owner subscription         | delete owner balance, delete group balance, delete group |     |
 
 there are 4 terms associated with the command pattern
@@ -34,7 +34,9 @@ there are 4 terms associated with the command pattern
 ```
 
 public interface Command {
-  public void execute();
+    public void execute();
+    public void undo();    
+    public void redo();
 }
 
 ```
@@ -59,7 +61,9 @@ public class CreateGroupAndSubscription implements Command {
   ```
   
   public class Invoker {
-     private List<Command> history .....
+     Stack<Command> undoStack;
+     Stack<Command> redoStack;
+     
      public void storeAndExecute(final Command) {
      
      }
