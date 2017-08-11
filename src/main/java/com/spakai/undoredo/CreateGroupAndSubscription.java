@@ -17,12 +17,12 @@ public class CreateGroupAndSubscription implements Command {
     
     @Override
     public void execute() {
-        receiver.createGroup(groupId,subscriptionId);
+        CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
     }
     
     @Override
     public void undo() {
-        receiver.deleteGroup(groupId);
+        DeleteGroupResponse response = receiver.deleteGroup(groupId);
     }
     
     @Override

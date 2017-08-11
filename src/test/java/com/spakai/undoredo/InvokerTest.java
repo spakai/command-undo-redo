@@ -15,7 +15,7 @@ public class InvokerTest {
       inv = new Invoker();
   }
   
-    class DummyOutput extends Output {
+    class DummyOutput extends Response {
         public DummyOutput(Long resultCode, String resultMessage) {
             super(resultCode, resultMessage);
         }

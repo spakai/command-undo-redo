@@ -1,10 +1,10 @@
 package com.spakai.undoredo;
 
-public abstract class Output  {
+public abstract class Response  {
     Long resultCode;
     String resultMessage;
     
-    public Output(Long resultCode, String resultMessage) {
+    public Response(Long resultCode, String resultMessage) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
     }
