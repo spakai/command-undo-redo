@@ -16,17 +16,27 @@ public class CreateGroupAndSubscription implements Command {
     }
     
     @Override
-    public void execute() {
+    public boolean execute() {
         CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
+        if ( response.getResultCode() == 0L) {
+            return true;
+        }
+        
+        return false;
     }
     
     @Override
-    public void undo() {
+    public boolean undo() {
         DeleteGroupResponse response = receiver.deleteGroup(groupId);
+        if ( response.getResultCode() == 0L) {
+            return true;
+        }
+        
+        return false;
     }
     
     @Override
-    public void redo() {
-        execute();     
+    public boolean redo() {
+        return execute();     
     }
 }

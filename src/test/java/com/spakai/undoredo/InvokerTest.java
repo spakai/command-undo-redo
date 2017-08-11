@@ -30,18 +30,21 @@ public class InvokerTest {
         }
         
         @Override
-        public void execute() {
+        public boolean execute() {
              System.out.println("Execute " + message);
+             return true;
         }
     
         @Override
-        public void undo() {
+        public boolean undo() {
              System.out.println("Undo " + message);
+             return true;
         }
         
          @Override
-        public void redo() {
+        public boolean redo() {
              execute();
+             return true;
         }
     }
 

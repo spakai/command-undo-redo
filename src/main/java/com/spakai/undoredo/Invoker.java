@@ -12,24 +12,38 @@ public class Invoker {
         redoStack = new Stack<>();
     }
     
-    public void execute(Command cmd) {
-        undoStack.push(cmd);
-        redoStack.clear();
-        cmd.execute();
+    public boolean execute(Command cmd) {
+        if (cmd.execute()) {
+            undoStack.push(cmd);
+            redoStack.clear();
+            
+            return true;
+        }
+        
+        return false;
     }
     
-    public void undo() {
+    public boolean undo() {
         if (!undoStack.isEmpty()) {
             Command cmd = undoStack.pop();
             cmd.undo();
             redoStack.push(cmd);
+            
+            return true;
         }
+        
+        return false;
     }
     
-    public void redo() {
-        Command cmd = redoStack.pop();
-        cmd.execute();
-        undoStack.push(cmd);
+    public boolean redo() {
+        if (!redoStack.empty()) {
+            Command cmd = redoStack.pop();
+            cmd.execute();
+            undoStack.push(cmd);
+            
+            return true;
+        }
         
+        return false;
     }
 }
