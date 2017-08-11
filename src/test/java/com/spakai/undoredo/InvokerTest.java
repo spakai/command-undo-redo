@@ -50,9 +50,6 @@ public class InvokerTest {
       inv.execute(new CommandTest("create group and subscriptions"));
       inv.execute(new CommandTest("create group balances"));
       
-      //failed timeout
-      inv.redo();
-      
       //failed again undo all
       inv.undo(); 
       inv.undo();
