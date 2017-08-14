@@ -44,7 +44,7 @@ public class Invoker {
     */
     public ResultInfo undo() {
         
-        if (!undoStack.isEmpty()) {
+        if (isUndoAvailable()) {
             Command cmd = undoStack.pop();
             ResultInfo ri = cmd.undo();            
             return ri;
@@ -61,7 +61,7 @@ public class Invoker {
     */
     
     public ResultInfo redo() {
-        if (!redoStack.empty()) {
+        if (isRedoAvailable()) {
             Command cmd = redoStack.pop();
             return execute(cmd);
         }
@@ -82,7 +82,23 @@ public class Invoker {
     */
     public void clearRedoHistory() {
         redoStack.clear();
+    }    
+        
+    /**
+    * Check if there is command available to undo
+    * @return      true if available , false otherwise
+    */
+    public boolean isUndoAvailable() {
+        return !undoStack.empty();
     }
     
+    /**
+    * Check if there is command available to redo
+    * @return      true if available , false otherwise
+    */
+    
+    public boolean isRedoAvailable() {
+        return !redoStack.empty();
+    }
     
 }

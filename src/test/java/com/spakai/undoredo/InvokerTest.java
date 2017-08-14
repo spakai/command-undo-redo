@@ -128,11 +128,11 @@ public class InvokerTest {
    e1 = inv.execute(new CommandTest("create group and subscriptions"));
    e2 = inv.execute(new CommandTest("create group balances"));
       
+   while(inv.isUndoAvailable()) {
+       u1 = inv.undo(); 
+   }
    
-   u1 = inv.undo(); 
-   u2 = inv.undo();
-   
-   assertThat(u2.getResultCode(), is(SUCCESS));
+   assertThat(u1.getResultCode(), is(SUCCESS));
    
   }
   
