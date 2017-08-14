@@ -35,8 +35,7 @@ there are 4 terms associated with the command pattern
 
 public interface Command {
     public void execute();
-    public void undo();    
-    public void redo();
+    public void undo();        
 }
 
 ```
@@ -64,7 +63,7 @@ public class CreateGroupAndSubscription implements Command {
      Stack<Command> undoStack;
      Stack<Command> redoStack;
      
-     public void storeAndExecute(final Command) {
+     public void execute(final Command) {
      
      }
   
