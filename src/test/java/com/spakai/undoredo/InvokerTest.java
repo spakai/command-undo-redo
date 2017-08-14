@@ -109,8 +109,8 @@ public class InvokerTest {
   }
 
   @Test 
-  public void RedoUntilAnExecuteIsSuccesful() {
-    boolean e1 =false ,e2 = false ,r1 = false, r2 = false;
+  public void AbleRedoUntilAnExecuteIsSuccesful() {
+    boolean e1 =false ,e2 = false ,r1 = true, r2 = true, r3 = true;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
     if (e1) {
         e2 = inv.execute(new CommandTest("create group balances",false,false));
@@ -120,12 +120,17 @@ public class InvokerTest {
             r2 = inv.redo();
         }
      
+        if ( r2 == false) {
+            r3 = inv.redo();
+        }
+        
     }
     
     assertThat(e1, is(true));
     assertThat(e2, is(false));
     assertThat(r1, is(false));
     assertThat(r2, is(false));
+    assertThat(r3, is(false));
     
   }
   
