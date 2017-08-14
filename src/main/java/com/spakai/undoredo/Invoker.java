@@ -37,12 +37,17 @@ public class Invoker {
         return ri;
     }
     
+     /**
+    * Undo a command that was previously successfully executed
+    *
+    * @param  cmd  Command object
+    * @return      ResultInfo object,null if nothing to run
+    */
     public ResultInfo undo() {
         
         if (!undoStack.isEmpty()) {
             Command cmd = undoStack.pop();
-            ResultInfo ri = cmd.undo();
-            redoStack.push(cmd);
+            ResultInfo ri = cmd.undo();            
             return ri;
         }
         

@@ -150,7 +150,4 @@ public class InvokerTest {
    assertThat(ri, is(nullValue()));
    
   }
-  
- 
-  
 }
