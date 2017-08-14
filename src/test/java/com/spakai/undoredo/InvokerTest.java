@@ -27,8 +27,8 @@ public class InvokerTest {
   
     class CommandTest implements Command {
 
-        private String message;
-        private boolean rt_e,rt_u;
+        private final String message;
+        private final boolean rt_e,rt_u;
         
         
         public CommandTest(String message) {
@@ -66,21 +66,6 @@ public class InvokerTest {
         }
     }
 
-  @Test
-  public void NothingToUndo() {
-   inv.execute(new CommandTest("create group and subscriptions"));
-   inv.execute(new CommandTest("create group balances"));
-      
-   //assume failed again undo all
-   inv.undo(); 
-   inv.undo();
-   //nothing to undo though after the last two
-   
-   ResultInfo ri = inv.undo();
-   assertThat(ri, is(nullValue()));
-   
-  }
-  
   @Test 
   public void CanRedoIfExecuteFailed() {
     ResultInfo e1 ,e2 = null,r1 = null;
@@ -136,4 +121,36 @@ public class InvokerTest {
     assertThat(r2.getResultCode(), is(not(SUCCESS)));
     
   }
+  
+  @Test
+  public void CanUndoAPreviousSuccesfulCommand() {
+   ResultInfo e1 =null ,e2 = null, u1 = null, u2=null;
+   e1 = inv.execute(new CommandTest("create group and subscriptions"));
+   e2 = inv.execute(new CommandTest("create group balances"));
+      
+   
+   u1 = inv.undo(); 
+   u2 = inv.undo();
+   
+   assertThat(u2.getResultCode(), is(SUCCESS));
+   
+  }
+  
+  @Test
+  public void NothingToUndo() {
+   inv.execute(new CommandTest("create group and subscriptions"));
+   inv.execute(new CommandTest("create group balances"));
+      
+   //assume failed again undo all
+   inv.undo(); 
+   inv.undo();
+   //nothing to undo though after the last two
+   
+   ResultInfo ri = inv.undo();
+   assertThat(ri, is(nullValue()));
+   
+  }
+  
+ 
+  
 }
