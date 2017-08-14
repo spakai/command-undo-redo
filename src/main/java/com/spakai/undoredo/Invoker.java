@@ -19,7 +19,7 @@ public class Invoker {
     * If a command failed to execute , add it to the redo stack 
     * so that the action can be redo-ed.
     * Redo stack is cleared every time a command is successfully executed 
-    * since there is no reason to redo a successful command 
+    * since there is no reason to redo a successful command or the commands before it.
     *
     * @param  cmd  Command object
     * @return      ResultInfo object
@@ -40,7 +40,6 @@ public class Invoker {
      /**
     * Undo a command that was previously successfully executed
     *
-    * @param  cmd  Command object
     * @return      ResultInfo object,null if nothing to run
     */
     public ResultInfo undo() {
@@ -69,4 +68,21 @@ public class Invoker {
         
         return null;
     }
+        
+    /**
+    * Clears the undo history
+    */
+    
+    public void clearUndoHistory() {
+        undoStack.clear();        
+    }
+   
+    /**
+    * Clears the redo history
+    */
+    public void clearRedoHistory() {
+        redoStack.clear();
+    }
+    
+    
 }
