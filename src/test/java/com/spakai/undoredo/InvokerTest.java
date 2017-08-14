@@ -51,13 +51,6 @@ public class InvokerTest {
              System.out.println("Undo " + message);
              return rt_u;
         }
-        
-        @Override
-        public boolean redo() {
-             System.out.println("Redo " + message);
-             return false;
-             
-        }
     }
 
   @Test

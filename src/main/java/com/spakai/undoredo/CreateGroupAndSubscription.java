@@ -34,9 +34,4 @@ public class CreateGroupAndSubscription implements Command {
         
         return false;
     }
-    
-    @Override
-    public boolean redo() {
-        return execute();     
-    }
 }
