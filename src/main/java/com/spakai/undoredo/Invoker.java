@@ -12,7 +12,6 @@ public class Invoker {
         redoStack = new Stack<>();
     }
     
-    
     /**
     * Executes a command.
     * If the command is successful , push the command into undoStack
@@ -23,39 +22,53 @@ public class Invoker {
     * since there is no reason to redo a successful command 
     *
     * @param  cmd  Command object
-    * @return      true if execute was successful, false otherwise
+    * @return      ResultInfo object
     */
     
-    public boolean execute(Command cmd) {
-        if (cmd.execute()) {
+    public ResultInfo execute(Command cmd) {
+        ResultInfo ri = cmd.execute();
+        if (ri.getResultCode() == 0L) {
             undoStack.push(cmd);
             redoStack.clear();
-            return true;
         } else {
             redoStack.add(cmd);
         }
         
-        return false;
+        return ri;
     }
     
-    public boolean undo() {
+    public ResultInfo undo() {
+        
         if (!undoStack.isEmpty()) {
             Command cmd = undoStack.pop();
-            cmd.undo();
+            ResultInfo ri = cmd.undo();
             redoStack.push(cmd);
-            
-            return true;
+            return ri;
         }
         
-        return false;
+        return null;
+        
     }
     
-    public boolean redo() {
+    /**
+    * Executes a command taken from the redo stack.
+    * If the command is successful , push the command into undoStack
+    * so that the action can be undo-ed.
+    * If a command failed to execute , add it to the redo stack 
+    * so that the action can be redo-ed.
+    * Redo stack is cleared every time a command is successfully executed 
+    * since there is no reason to redo a successful command 
+    *
+    * @param  cmd  Command object
+    * @return      ResultInfo object
+    */
+    
+    public ResultInfo redo() {
         if (!redoStack.empty()) {
             Command cmd = redoStack.pop();
-            return cmd.execute();                
+            return execute(cmd);
         }
         
-        return false;
+        return null;
     }
 }

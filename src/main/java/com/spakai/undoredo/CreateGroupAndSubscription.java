@@ -16,22 +16,24 @@ public class CreateGroupAndSubscription implements Command {
     }
     
     @Override
-    public boolean execute() {
+    public ResultInfo execute() {
         CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
         if ( response.getResultCode() == 0L) {
-            return true;
+            
+            return new ResultInfo(0L,"");
         }
         
-        return false;
+        return new ResultInfo(response.getResultCode(),response.getResultMessage());
     }
     
     @Override
-    public boolean undo() {
+    public ResultInfo undo() {
         DeleteGroupResponse response = receiver.deleteGroup(groupId);
         if ( response.getResultCode() == 0L) {
-            return true;
+            
+            return new ResultInfo(0L,"");
         }
         
-        return false;
+        return new ResultInfo(response.getResultCode(),response.getResultMessage());
     }
 }

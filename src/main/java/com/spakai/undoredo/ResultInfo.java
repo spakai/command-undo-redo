@@ -1,6 +1,6 @@
 package com.spakai.undoredo;
 
-public abstract class ResultInfo  {
+public class ResultInfo  {
     Long resultCode;
     String resultMessage;
     String version;

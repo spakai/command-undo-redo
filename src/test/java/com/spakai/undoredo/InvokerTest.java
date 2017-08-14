@@ -1,15 +1,19 @@
 package com.spakai.undoredo;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
 public class InvokerTest {
+  
+    
     
   private Invoker inv;  
   
+  private Long SUCCESS = 0L;
   @Before
   public void setup() {
       inv = new Invoker();
@@ -41,15 +45,24 @@ public class InvokerTest {
         }
         
         @Override
-        public boolean execute() {
+        public ResultInfo execute() {
              System.out.println("Execute " + message);
-             return rt_e;
+             if(rt_e) {
+                 return new ResultInfo(0L,"");
+             } else {
+                 return new ResultInfo(99L,"Timed out");
+             }
+
         }
     
         @Override
-        public boolean undo() {
+        public ResultInfo undo() {
              System.out.println("Undo " + message);
-             return rt_u;
+              if(rt_u) {
+                 return new ResultInfo(0L,"");
+             } else {
+                 return new ResultInfo(99L,"Timed out");
+             }
         }
     }
 
@@ -58,75 +71,69 @@ public class InvokerTest {
    inv.execute(new CommandTest("create group and subscriptions"));
    inv.execute(new CommandTest("create group balances"));
       
-   //failed again undo all
+   //assume failed again undo all
    inv.undo(); 
    inv.undo();
-   //nothing to undo
-   inv.undo();
+   //nothing to undo though after the last two
+   
+   ResultInfo ri = inv.undo();
+   assertThat(ri, is(nullValue()));
    
   }
   
   @Test 
   public void CanRedoIfExecuteFailed() {
-    boolean e1 =false ,e2 = false ,r1 = true;
+    ResultInfo e1 ,e2 = null,r1 = null;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
-    if (e1) {
+    if (e1.getResultCode() == SUCCESS) {
         e2 = inv.execute(new CommandTest("create group balances",false,true));
     
-        if(e2 == false) {
+        if(e2.getResultCode() != SUCCESS) {
             r1 = inv.redo();
         }
     }
     
-    assertThat(e1, is(true));
-    assertThat(e2, is(false));
-    assertThat(r1, is(false));
+    assertThat(e1.getResultCode(), is(SUCCESS));
+    assertThat(e2.getResultCode(), is(not(SUCCESS)));
+    assertThat(r1.getResultCode(), is(not(SUCCESS)));
     
   }
 
   @Test 
   public void NothingToRedoIfExecuteIsSuccesful() {
-    boolean e1 =false ,e2 = false ,r1 = true;
+    ResultInfo e1 =null ,e2 = null ,r1 = null;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
-    if (e1) {
+    if (e1.getResultCode() == SUCCESS) {
         e2 = inv.execute(new CommandTest("create group balances",true,true));
     
         r1 = inv.redo();
      
     }
     
-    assertThat(e1, is(true));
-    assertThat(e2, is(true));
-    assertThat(r1, is(false));
+    assertThat(e1.getResultCode(), is(SUCCESS));
+    assertThat(e2.getResultCode(), is(SUCCESS));
+    assertThat(r1, is(nullValue()));
     
   }
 
   @Test 
-  public void AbleRedoUntilAnExecuteIsSuccesful() {
-    boolean e1 =false ,e2 = false ,r1 = true, r2 = true, r3 = true;
+  public void AbleToRedoUntilAnExecuteIsSuccesful() {
+    ResultInfo e1 =null ,e2 = null ,r1 = null, r2 = null, r3 = null;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
-    if (e1) {
+    if (e1.getResultCode() == SUCCESS) {
         e2 = inv.execute(new CommandTest("create group balances",false,false));
-       
-        r1 = inv.redo();
-        if ( r1 == false) {
-            r2 = inv.redo();
+        if (e2.getResultCode() != SUCCESS) {
+            r1 = inv.redo();
         }
-     
-        if ( r2 == false) {
-            r3 = inv.redo();
-        }
-        
     }
     
-    assertThat(e1, is(true));
-    assertThat(e2, is(false));
-    assertThat(r1, is(false));
-    assertThat(r2, is(false));
-    assertThat(r3, is(false));
+    if(r1.getResultCode() != SUCCESS) {
+        r2 = inv.redo();
+    }
+    assertThat(e1.getResultCode(), is(SUCCESS));
+    assertThat(e2.getResultCode(), is(not(SUCCESS)));
+    assertThat(r1.getResultCode(), is(not(SUCCESS)));
+    assertThat(r2.getResultCode(), is(not(SUCCESS)));
     
   }
-  
-  
-  
 }
