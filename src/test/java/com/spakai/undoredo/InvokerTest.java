@@ -75,7 +75,7 @@ public class InvokerTest {
   }
   
   @Test 
-  public void RedoIfExecuteFailed() {
+  public void CanRedoIfExecuteFailed() {
     boolean e1 =false ,e2 = false ,r1 = false;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
     if (e1) {
@@ -92,6 +92,22 @@ public class InvokerTest {
     
   }
 
+  @Test 
+  public void NothingToRedoIfExecuteIsSuccesful() {
+    boolean e1 =false ,e2 = false ,r1 = true;
+    e1 = inv.execute(new CommandTest("create group and subscriptions"));
+    if (e1) {
+        e2 = inv.execute(new CommandTest("create group balances",true,true,true));
+    
+        r1 = inv.redo();
+     
+    }
+    
+    assertThat(e1, is(true));
+    assertThat(e2, is(true));
+    assertThat(r1, is(false));
+    
+  }
 
   
   
