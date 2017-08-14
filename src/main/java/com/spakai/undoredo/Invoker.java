@@ -18,6 +18,7 @@ public class Invoker {
     * If the command is successful , push the command into undoStack
     * so that the action can be undo-ed.
     * Redo stack is cleared every time a command is successfully executed 
+    * If a command failed to execute , add it to the redo stack
     *
     * @param  cmd  Command object
     * @return      true if execute was successful, false otherwise
@@ -27,7 +28,6 @@ public class Invoker {
         if (cmd.execute()) {
             undoStack.push(cmd);
             redoStack.clear();
-            
             return true;
         } else {
             redoStack.add(cmd);
@@ -51,10 +51,7 @@ public class Invoker {
     public boolean redo() {
         if (!redoStack.empty()) {
             Command cmd = redoStack.pop();
-            cmd.execute();
-            undoStack.push(cmd);
-            
-            return true;
+            return cmd.execute();                
         }
         
         return false;

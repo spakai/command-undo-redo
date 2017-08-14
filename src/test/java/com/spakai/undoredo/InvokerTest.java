@@ -24,21 +24,19 @@ public class InvokerTest {
     class CommandTest implements Command {
 
         private String message;
-        private boolean rt_e,rt_u,rt_r;
+        private boolean rt_e,rt_u;
         
         
         public CommandTest(String message) {
             this.message = message;
             this.rt_e = true;
-            this.rt_r = true;
             this.rt_u = true;
         
         }
         
-        public CommandTest(String message,boolean rt_e, boolean rt_u, boolean rt_r) {
+        public CommandTest(String message,boolean rt_e, boolean rt_u) {
             this.message = message;
             this.rt_e = rt_e;
-            this.rt_r = rt_r;
             this.rt_u = rt_u;
         }
         
@@ -51,13 +49,14 @@ public class InvokerTest {
         @Override
         public boolean undo() {
              System.out.println("Undo " + message);
-             return rt_e;
+             return rt_u;
         }
         
-         @Override
+        @Override
         public boolean redo() {
-             execute();
-             return rt_r;
+             System.out.println("Redo " + message);
+             return false;
+             
         }
     }
 
@@ -76,10 +75,10 @@ public class InvokerTest {
   
   @Test 
   public void CanRedoIfExecuteFailed() {
-    boolean e1 =false ,e2 = false ,r1 = false;
+    boolean e1 =false ,e2 = false ,r1 = true;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
     if (e1) {
-        e2 = inv.execute(new CommandTest("create group balances",false,true,true));
+        e2 = inv.execute(new CommandTest("create group balances",false,true));
     
         if(e2 == false) {
             r1 = inv.redo();
@@ -88,7 +87,7 @@ public class InvokerTest {
     
     assertThat(e1, is(true));
     assertThat(e2, is(false));
-    assertThat(r1, is(true));
+    assertThat(r1, is(false));
     
   }
 
@@ -97,7 +96,7 @@ public class InvokerTest {
     boolean e1 =false ,e2 = false ,r1 = true;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
     if (e1) {
-        e2 = inv.execute(new CommandTest("create group balances",true,true,true));
+        e2 = inv.execute(new CommandTest("create group balances",true,true));
     
         r1 = inv.redo();
      
@@ -109,6 +108,26 @@ public class InvokerTest {
     
   }
 
+  @Test 
+  public void RedoUntilAnExecuteIsSuccesful() {
+    boolean e1 =false ,e2 = false ,r1 = false, r2 = false;
+    e1 = inv.execute(new CommandTest("create group and subscriptions"));
+    if (e1) {
+        e2 = inv.execute(new CommandTest("create group balances",false,false));
+       
+        r1 = inv.redo();
+        if ( r1 == false) {
+            r2 = inv.redo();
+        }
+     
+    }
+    
+    assertThat(e1, is(true));
+    assertThat(e2, is(false));
+    assertThat(r1, is(false));
+    assertThat(r2, is(false));
+    
+  }
   
   
   
