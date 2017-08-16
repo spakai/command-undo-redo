@@ -102,7 +102,7 @@ public class InvokerTest {
   }
 
   @Test 
-  public void AbleToRedoUntilAnExecuteIsSuccesful() {
+  public void AbleToRedoUntilStackIsCleared() {
     ResultInfo e1 =null ,e2 = null ,r1 = null, r2 = null, r3 = null;
     e1 = inv.execute(new CommandTest("create group and subscriptions"));
     if (e1.getResultCode() == SUCCESS) {
@@ -115,11 +115,21 @@ public class InvokerTest {
     if(r1.getResultCode() != SUCCESS) {
         r2 = inv.redo();
     }
+    
+      
+    
+    inv.clearRedoHistory();
+    
+    
+    if(r2.getResultCode() != SUCCESS) {
+        r3 = inv.redo();
+    }
+    
     assertThat(e1.getResultCode(), is(SUCCESS));
     assertThat(e2.getResultCode(), is(not(SUCCESS)));
     assertThat(r1.getResultCode(), is(not(SUCCESS)));
     assertThat(r2.getResultCode(), is(not(SUCCESS)));
-    
+    assertThat(r3, is(nullValue()));
   }
   
   @Test
@@ -149,5 +159,6 @@ public class InvokerTest {
    ResultInfo ri = inv.undo();
    assertThat(ri, is(nullValue()));
    
-  }
+  } 
+  
 }
