@@ -1,6 +1,6 @@
 package com.spakai.undoredo;
 
-public class CreateGroupAndSubscription implements Command {
+public class CreateGroupAndSubscription implements Command<CreateGroupResponse, DeleteGroupResponse>  {
 
     // which states do i need to store in order to execute and undo
     private int groupId;
@@ -16,24 +16,14 @@ public class CreateGroupAndSubscription implements Command {
     }
     
     @Override
-    public ResultInfo execute() {
+    public CreateGroupResponse execute() {
         CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
-        if ( response.getResultCode() == 0L) {
-            
-            return new ResultInfo(0L,"");
-        }
-        
-        return new ResultInfo(response.getResultCode(),response.getResultMessage());
+        return response; 
     }
     
     @Override
-    public ResultInfo undo() {
+    public DeleteGroupResponse undo() {
         DeleteGroupResponse response = receiver.deleteGroup(groupId);
-        if ( response.getResultCode() == 0L) {
-            
-            return new ResultInfo(0L,"");
-        }
-        
-        return new ResultInfo(response.getResultCode(),response.getResultMessage());
+        return response;
     }
 }
