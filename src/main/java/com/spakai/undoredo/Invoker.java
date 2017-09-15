@@ -6,7 +6,7 @@ public class Invoker {
     
     private final Stack<Command> undoStack;
     private final Stack<Command> redoStack;
-    
+
     public Invoker() {
         undoStack = new Stack<>();
         redoStack = new Stack<>();
@@ -22,51 +22,43 @@ public class Invoker {
     * since there is no reason to redo a successful command or the commands before it.
     *
     * @param  cmd  Command object
-    * @return      ResultInfo object
+    * @return      Nothing 
     */
     
-    public ResultInfo execute(Command cmd) {
-        ResultInfo ri = cmd.execute();
-        if (ri.getResultCode() == 0L) {
+    public void execute(final Command cmd) {
+        Response response = cmd.execute();
+        if (response.getResultCode() == 0L) {
             undoStack.push(cmd);
             redoStack.clear();
         } else {
             redoStack.add(cmd);
         }
-        
-        return ri;
     }
     
      /**
     * Undo a command that was previously successfully executed
     *
-    * @return      ResultInfo object,null if nothing to run
+    * @return     Nothing 
     */
-    public ResultInfo undo() {
-        
+    public void undo() {
         if (isUndoAvailable()) {
             Command cmd = undoStack.pop();
-            ResultInfo ri = cmd.undo();            
-            return ri;
+            cmd.undo();            
         }
-        
-        return null;
         
     }
     
     /**
     * Executes a command taken from the redo stack.
     * Runs the execute logic
-    * @return      ResultInfo object, null if nothing to run
+    * @return  nothing
     */
     
-    public ResultInfo redo() {
+    public void redo() {
         if (isRedoAvailable()) {
             Command cmd = redoStack.pop();
-            return execute(cmd);
+            execute(cmd);
         }
-        
-        return null;
     }
         
     /**
