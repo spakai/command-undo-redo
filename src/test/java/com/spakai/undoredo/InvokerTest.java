@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class InvokerTest {
   
-    
+  private String subscriberId = null;  
     
   private Invoker inv;  
   
@@ -20,15 +20,28 @@ public class InvokerTest {
   }
   
     class DummyOutput extends Response {
-        public DummyOutput(Long resultCode, String resultMessage) {
+        
+        private String subscriberId;
+
+        public String getSubscriberId() {
+            return subscriberId;
+        }
+
+        public void setSubscriberId(String subscriberId) {
+            this.subscriberId = subscriberId;
+        }
+        
+        public DummyOutput(Long resultCode, String resultMessage,String subscriberId) {
             super(resultCode, resultMessage);
+            this.subscriberId = subscriberId;
+            
         }
     }
   
     class CallbackImpl implements Callback<DummyOutput> {
     @Override
         public DummyOutput onSuccess(DummyOutput response) {
-            System.out.println(response.getResultCode());
+            subscriberId = response.getSubscriberId();
             return response;
         }
         
@@ -58,9 +71,9 @@ public class InvokerTest {
         public DummyOutput execute() {
              System.out.println("Execute " + message);
              if(rt_e) {
-                 return new DummyOutput(0L,"");
+                 return new DummyOutput(0L,"","0175559138");
              } else {
-                 return new DummyOutput(99L,"Timed out");
+                 return new DummyOutput(99L,"Timed out","0175559138");
              }
 
         }
@@ -69,9 +82,9 @@ public class InvokerTest {
         public DummyOutput undo() {
              System.out.println("Undo " + message);
               if(rt_u) {
-                 return new DummyOutput(0L,"");
+                 return new DummyOutput(0L,"","0175559138");
              } else {
-                 return new DummyOutput(99L,"Timed out");
+                 return new DummyOutput(99L,"Timed out","0175559138");
              }
         }
     }
@@ -87,6 +100,7 @@ public class InvokerTest {
        inv.undo(); 
    }
    
+   assertThat(subscriberId, is("0175559138"));
    
   }
 }
