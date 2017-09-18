@@ -25,11 +25,14 @@ public class Invoker {
     * @return      Nothing 
     */
     
-    public void execute(final Command cmd) {
+    public void execute(final Command cmd, final Callback callback) {
         Response response = cmd.execute();
         if (response.getResultCode() == 0L) {
             undoStack.push(cmd);
             redoStack.clear();
+            if ( callback != null) {
+                callback.onSuccess(response);
+            }
         } else {
             redoStack.add(cmd);
         }
@@ -57,7 +60,7 @@ public class Invoker {
     public void redo() {
         if (isRedoAvailable()) {
             Command cmd = redoStack.pop();
-            execute(cmd);
+            execute(cmd,null);
         }
     }
         
