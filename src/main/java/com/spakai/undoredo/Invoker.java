@@ -26,13 +26,15 @@ public class Invoker {
     */
     
     public void execute(final Command cmd, final Callback callback) {
-        Response response = cmd.execute();
+        Response response = null;
+        if ( callback != null) {
+            response = (Response) callback.onSuccess(cmd.execute());
+        }
+        
         if (response.getResultCode() == 0L) {
             undoStack.push(cmd);
             redoStack.clear();
-            if ( callback != null) {
-                callback.onSuccess(response);
-            }
+        
         } else {
             redoStack.add(cmd);
         }

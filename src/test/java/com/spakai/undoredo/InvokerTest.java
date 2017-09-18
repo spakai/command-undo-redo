@@ -27,8 +27,9 @@ public class InvokerTest {
   
     class CallbackImpl implements Callback<DummyOutput> {
     @Override
-        public void onSuccess(DummyOutput response) {
+        public DummyOutput onSuccess(DummyOutput response) {
             System.out.println(response.getResultCode());
+            return response;
         }
         
     }
