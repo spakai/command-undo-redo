@@ -9,10 +9,14 @@ public class CreateGroupAndSubscription implements Command {
     // this is the Volt handle apis that talks to VoltDB
     private Receiver receiver;
     
-    public CreateGroupAndSubscription(int groupId, int subscriptionId, Receiver receiver) {
+    private final VersionKeeper versionKeeper;
+    
+    public CreateGroupAndSubscription(int groupId, int subscriptionId, Receiver receiver, VersionKeeper versionKeeper) {
         this.groupId = groupId;
         this.subscriptionId = subscriptionId;
         this.receiver = receiver;
+        this.versionKeeper = versionKeeper;
+        
     }
     
     @Override
@@ -28,7 +32,8 @@ public class CreateGroupAndSubscription implements Command {
     
     @Override
     public ResultInfo undo() {
-        DeleteGroupResponse response = receiver.deleteGroup(groupId);
+        
+        DeleteGroupResponse response = receiver.deleteGroup(groupId, versionKeeper.getVersionId());
         if ( response.getResultCode() == 0L) {
             
             return new ResultInfo(0L,"");
