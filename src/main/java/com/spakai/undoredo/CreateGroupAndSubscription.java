@@ -22,7 +22,9 @@ public class CreateGroupAndSubscription implements Command<CreateGroupResponse> 
     public CreateGroupResponse execute() {
         CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
         if ( response.getResultCode() == 0L) {
+            versionKeeper.setGroupVersion(response.getVersionId());
             return new CreateGroupResponse(0L,"");
+            
         }
         
         return new CreateGroupResponse(response.getResultCode(),response.getResultMessage());
