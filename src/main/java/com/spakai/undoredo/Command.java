@@ -1,6 +1,6 @@
 package com.spakai.undoredo;
 
-public interface Command {
-    public ResultInfo execute();
-    public ResultInfo undo();     
+public interface Command<O extends Response> {
+    public O execute();
+    public boolean undo();     
 }

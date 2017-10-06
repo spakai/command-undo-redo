@@ -1,6 +1,6 @@
 package com.spakai.undoredo;
 
-public class CreateGroupAndSubscription implements Command {
+public class CreateGroupAndSubscription implements Command<CreateGroupResponse> {
 
     // which states do i need to store in order to execute and undo
     private int groupId;
@@ -9,36 +9,32 @@ public class CreateGroupAndSubscription implements Command {
     // this is the Volt handle apis that talks to VoltDB
     private Receiver receiver;
     
-    private final VersionKeeper versionKeeper;
+    private VersionKeeper versionKeeper;
     
     public CreateGroupAndSubscription(int groupId, int subscriptionId, Receiver receiver, VersionKeeper versionKeeper) {
         this.groupId = groupId;
         this.subscriptionId = subscriptionId;
         this.receiver = receiver;
         this.versionKeeper = versionKeeper;
-        
     }
     
     @Override
-    public ResultInfo execute() {
+    public CreateGroupResponse execute() {
         CreateGroupResponse response = receiver.createGroup(groupId,subscriptionId);
         if ( response.getResultCode() == 0L) {
-            
-            return new ResultInfo(0L,"");
+            return new CreateGroupResponse(0L,"");
         }
         
-        return new ResultInfo(response.getResultCode(),response.getResultMessage());
+        return new CreateGroupResponse(response.getResultCode(),response.getResultMessage());
     }
     
     @Override
-    public ResultInfo undo() {
-        
-        DeleteGroupResponse response = receiver.deleteGroup(groupId, versionKeeper.getVersionId());
+    public boolean undo() {
+        DeleteGroupResponse response = receiver.deleteGroup(groupId, versionKeeper.getGroupVersion());
         if ( response.getResultCode() == 0L) {
-            
-            return new ResultInfo(0L,"");
+            return true;
         }
         
-        return new ResultInfo(response.getResultCode(),response.getResultMessage());
+        return false;
     }
 }

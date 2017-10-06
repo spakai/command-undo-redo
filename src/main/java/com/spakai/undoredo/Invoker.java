@@ -25,16 +25,14 @@ public class Invoker {
     * @return      ResultInfo object
     */
     
-    public ResultInfo execute(Command cmd) {
-        ResultInfo ri = cmd.execute();
+    public void execute(Command cmd) {
+        Response ri = cmd.execute();
         if (ri.getResultCode() == 0L) {
             undoStack.push(cmd);
             redoStack.clear();
         } else {
             redoStack.add(cmd);
         }
-        
-        return ri;
     }
     
      /**
@@ -42,16 +40,15 @@ public class Invoker {
     *
     * @return      ResultInfo object,null if nothing to run
     */
-    public ResultInfo undo() {
+    public boolean undo() {
         
         if (isUndoAvailable()) {
             Command cmd = undoStack.pop();
-            ResultInfo ri = cmd.undo();            
-            return ri;
+            return cmd.undo();            
+            
         }
         
-        return null;
-        
+        return false;
     }
     
     /**
@@ -60,13 +57,11 @@ public class Invoker {
     * @return      ResultInfo object, null if nothing to run
     */
     
-    public ResultInfo redo() {
+    public void redo() {
         if (isRedoAvailable()) {
             Command cmd = redoStack.pop();
-            return execute(cmd);
+            execute(cmd);
         }
-        
-        return null;
     }
         
     /**

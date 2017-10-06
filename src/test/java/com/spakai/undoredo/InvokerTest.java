@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class InvokerTest {
   
-    
+    /*
     
   private Invoker inv;  
   
@@ -160,5 +160,7 @@ public class InvokerTest {
    assertThat(ri, is(nullValue()));
    
   } 
+
+*/
   
 }
